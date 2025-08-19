@@ -1,14 +1,16 @@
-import React from 'react';
+import React from "react";
+import { NavLink } from "react-router";
+
+
 const Header = () => {
   return (
     <nav>
-        <ul>
-            <Navlink to="/">Home</Navlink>
-            {/* <Navlink to="/login">Login</Navlink>
-            <Navlink to="/register">Register</Navlink> */}
-        </ul>
-    </nav>
+    <ul>
+       <NavLink to="/" >Home</NavLink>
+      
+    </ul>
+  </nav>
   );
-}
+};
 
 export default Header;

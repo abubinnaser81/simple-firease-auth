@@ -7,7 +7,7 @@ const Root = () => {
       <Header></Header>
       <Outlet></Outlet>
     </div>
-  )
-}
+  );
+};
 
-export default Root
+export default Root;
