@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-
+import { GithubAuthProvider } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
 import { auth } from '../../firebase/Firebase.imt';
 const Login = () => {
     const [user, setUser] = useState(null);
     const provider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
 
     const handleGoogleSignIn = () => {
         // Implement Google Sign-In logic here  
@@ -20,6 +21,25 @@ const Login = () => {
                 console.error(error);
             });
     };
+
+    // Sign-Out function
+        const handleGithubSignIn = () => {
+          signInWithPopup(auth,githubProvider)
+          .then(result => {
+            const loggedInUser = result.user;
+            console.log(loggedInUser)
+            setUser(loggedInUser);
+
+            if(!loggedInUser.email && loggedInUser?.providerData?.length){
+              console.log("User email not found");
+            }
+            
+
+          })
+          .catch(error => {
+            console.error("GitHub Sign-In error", error);
+          });
+        }
     const handleSignOut = () => {
         // Implement Sign-Out logic here
         signOut(auth).then(() => {
@@ -37,13 +57,19 @@ const Login = () => {
       <button onClick={handleSignOut}>Sign Out</button> */}
       {
         user ?  <button onClick={handleSignOut}>Sign Out</button>
-        : <button onClick={handleGoogleSignIn}>Sign In with Google</button>
+        : 
+        
+        <>
+        <button onClick={handleGoogleSignIn}>Sign In with Google</button>
+        <button onClick={handleGithubSignIn}>Sign In with GitHub</button>
+        </>
+        
       }
       {
         user && 
           <div>
-            <h3>{user.displayName}</h3>
-            <p>{user.email}</p>
+            <h3> user name :{user.displayName}</h3>
+            <p> user email :{user.email}</p>
             <img src={user.photoURL} alt={user.displayName} />
           </div>
 }
